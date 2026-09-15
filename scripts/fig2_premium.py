@@ -96,7 +96,7 @@ def main():
             guarantee=dict(zip(eta.round(3), guarantee)),
         )
     ax_a.set_xlabel("required confidence $\\eta$")
-    ax_a.set_ylabel("fire premium (% of deterministic cost)")
+    ax_a.set_ylabel("fire premium (% of deterministic)")
     ax_a.set_xlim(0.48, 1.0)
     ax_a.set_ylim(bottom=0)
     ax_a.annotate(
@@ -119,7 +119,7 @@ def main():
     ax_a.legend(loc="upper left", borderaxespad=0.3)
     light_grid(ax_a, "y")
     spine_style(ax_a)
-    panel_label(ax_a, "a")
+    panel_label(ax_a, "a", dx=-0.185)
 
     # ---------------------------------------------------------------- panel b
     region = WESTERN_US
@@ -162,7 +162,7 @@ def main():
     )
     light_grid(ax_b, "y")
     spine_style(ax_b)
-    panel_label(ax_b, "b")
+    panel_label(ax_b, "b", dx=-0.155)
     ax_b.text(
         0.97,
         0.70,
@@ -265,11 +265,11 @@ def main():
     for side in ("top", "left"):
         ax_c2.spines[side].set_visible(False)
     ax_c.set_xlabel("fire-proof capacity (multiple of required cooling)")
-    ax_c.set_ylabel("attainable $\\kappa_{\\max}$")
+    ax_c.set_ylabel("attainable $\\kappa_{\\max}$", labelpad=1.0)
     ax_c.legend(loc="lower left", borderaxespad=0.4, fontsize=5.8)
     light_grid(ax_c, "y")
     spine_style(ax_c)
-    panel_label(ax_c, "c")
+    panel_label(ax_c, "c", dx=-0.185)
     ax_c.annotate(
         "none available:\n$\\eta_{\\max}$ = "
         + "{:.3f}".format(records["western_us"]["ceiling_no_fireproof"]),
@@ -375,9 +375,9 @@ def main():
     )
     light_grid(ax_d, "y")
     spine_style(ax_d)
-    panel_label(ax_d, "d")
+    panel_label(ax_d, "d", dx=-0.155)
 
-    fig.tight_layout(pad=0.6, w_pad=1.6, h_pad=1.2)
+    fig.tight_layout(pad=0.9, w_pad=2.4, h_pad=1.6)
     save(fig, "fig2_premium")
 
     vals = {}
