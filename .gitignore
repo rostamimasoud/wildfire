@@ -1,0 +1,44 @@
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.blg
+*.bbl
+*.synctex.gz
+*.toc
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Notes and working documents are not part of the code record
+*.md
+*.MD
+
+# Local editor and tooling directories
+.*/
+!.gitignore
+
+# Internal planning document, not part of the published code record
+RP/
+
+# The manuscript is not part of the published code record
+manuscript/
+
+# Generated output: every figure and table is reproduced by the scripts, so
+# the artefacts themselves are not tracked
+figures/
+results/
+data/
