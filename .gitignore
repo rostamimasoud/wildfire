@@ -23,9 +23,11 @@ dist/
 .venv/
 venv/
 
-# Notes and working documents are not part of the code record
+# Notes and working documents are not part of the code record. The repository
+# README is the one exception, since it is the landing page on the remote.
 *.md
 *.MD
+!README.md
 
 # Local editor and tooling directories
 .*/
@@ -37,8 +39,18 @@ RP/
 # The manuscript is not part of the published code record
 manuscript/
 
+# The cover letter names the authors and the funders, so it stays out of the
+# published record for the same reason the manuscript does.
+cover_letter/
+
 # Generated output: every figure and table is reproduced by the scripts, so
 # the artefacts themselves are not tracked
 figures/
-results/
 data/
+
+# The supporting tables (results/tables/) are part of the submitted record:
+# the main text cites them by name, so they are committed rather than
+# regenerated from scratch. The remaining generated output stays ignored.
+results/*
+!results/tables/
+!results/tables/**

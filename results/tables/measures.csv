@@ -1,0 +1,15 @@
+region,measure,mean_storage_yr,exposure,unit_cost_usd_per_t,capacity_gt,cooling_deterministic,cooling_mean,cooling_sd,loss_fraction,survival_100yr
+Western United States,Afforestation,200.336,1,30,6,3.83488e-14,2.1706e-14,1.2593e-14,0.433987,0.0444911
+Western United States,Improved forest management,316.176,1,40,5,3.66165e-14,1.96987e-14,1.23353e-14,0.462026,0.0444911
+Western United States,Soil carbon,45,0.35,45,4,1.77545e-14,1.56065e-14,3.4697e-15,0.120985,0.336431
+Western United States,Harvested wood products,55,0.1,60,2.5,2.39312e-14,2.32454e-14,2.74561e-15,0.0286565,0.732535
+Western United States,Biochar,350,0.08,110,3,3.95614e-14,3.76391e-14,5.68412e-15,0.0485892,0.779582
+Western United States,"BECCS, geological storage",inf,0,150,5,4.56651e-14,4.56651e-14,6.31089e-30,-2.22045e-16,1
+Western United States,Direct air capture,inf,0,400,5,4.56651e-14,4.56651e-14,6.31089e-30,-2.22045e-16,1
+Boreal Canada,Afforestation,200.336,1,30,5,3.83488e-14,2.39143e-14,1.4596e-14,0.376402,0.186446
+Boreal Canada,Improved forest management,316.176,1,40,7,3.66165e-14,2.20097e-14,1.43608e-14,0.398913,0.186446
+Boreal Canada,Soil carbon,45,0.35,45,3.2,1.77545e-14,1.57785e-14,3.87405e-15,0.111296,0.555512
+Boreal Canada,Harvested wood products,55,0.1,60,3.2,2.39312e-14,2.32504e-14,3.09255e-15,0.0284484,0.845388
+Boreal Canada,Biochar,350,0.08,110,2.4,3.95614e-14,3.77556e-14,6.27837e-15,0.0456438,0.874267
+Boreal Canada,"BECCS, geological storage",inf,0,150,5,4.56651e-14,4.56651e-14,6.31089e-30,-2.22045e-16,1
+Boreal Canada,Direct air capture,inf,0,400,5,4.56651e-14,4.56651e-14,6.31089e-30,-2.22045e-16,1

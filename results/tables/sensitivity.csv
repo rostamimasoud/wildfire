@@ -1,0 +1,15 @@
+region,case,common_variance_share,cost_multiple_at_0.9,exposed_share_at_0.9
+Western United States,coupling: independent,0.335245,4.34857,0.422019
+Western United States,coupling: midpoint (adopted),0.315213,4.40094,0.418742
+Western United States,coupling: comonotone,0.297034,4.45155,0.415508
+Western United States,severity: stand-replacing +20%,0.310008,4.5425,0.407443
+Western United States,cost curvature: gamma = 1.3,0.315213,4.28083,0.465856
+Western United States,cost curvature: gamma = 1.6 (adopted),0.315213,4.40094,0.418742
+Western United States,cost curvature: gamma = 2.0,0.315213,4.96421,0.377059
+Boreal Canada,coupling: independent,0.418342,4.60935,0.390537
+Boreal Canada,coupling: midpoint (adopted),0.41362,4.62092,0.389713
+Boreal Canada,coupling: comonotone,0.408973,4.63244,0.388889
+Boreal Canada,severity: stand-replacing +20%,0.408635,4.78339,0.375846
+Boreal Canada,cost curvature: gamma = 1.3,0.41362,4.45906,0.427095
+Boreal Canada,cost curvature: gamma = 1.6 (adopted),0.41362,4.62092,0.389713
+Boreal Canada,cost curvature: gamma = 2.0,0.41362,5.32057,0.349897

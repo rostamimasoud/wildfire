@@ -1,0 +1,3 @@
+region,fire_return_interval_yr,lambda0_per_yr,beta_T_per_K,beta_D,delta_T_start_K,delta_T_end_K,intensification_target,severity_m1,severity_m2,weather_spread,anomaly_ratio,anomaly_return_period_yr,record_source
+western_us,70,0.0142857,0.410439,0.25,1.4,4,3.3,0.5138,0.393746,0.62154,3.5,100,published aggregates (no gridded product supplied)
+boreal_canada,110,0.00909091,0.227627,0.25,1.9,5.6,2.6,0.8845,0.847045,0.974174,6,100,published aggregates (no gridded product supplied)

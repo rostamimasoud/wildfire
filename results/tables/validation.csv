@@ -1,0 +1,71 @@
+tier,check,value,reference,error,tolerance,units,pass
+1,"cooling by stock path, exponential release TH=100",1.91866e-14,1.91866e-14,3.42079e-14,2e-12,relative,True
+1,"cooling by stock path, exponential release TH=500",1.99132e-14,1.99132e-14,3.00123e-13,2e-12,relative,True
+1,"cooling by stock path, delayed pulse TH=100",2.16498e-14,2.16498e-14,5.82997e-15,2e-12,relative,True
+1,"cooling by stock path, delayed pulse TH=500",1.97928e-14,1.97928e-14,1.4667e-13,2e-12,relative,True
+1,"cooling by stock path, constant-rate release TH=100",2.22009e-14,2.22009e-14,3.468e-14,2e-12,relative,True
+1,"cooling by stock path, constant-rate release TH=500",1.98368e-14,1.98368e-14,4.97413e-13,2e-12,relative,True
+1,"cooling by stock path, afforestation TH=100",3.83908e-14,3.83908e-14,3.71676e-13,2e-12,relative,True
+1,"cooling by stock path, afforestation TH=500",8.37308e-14,8.37308e-14,1.03409e-12,2e-12,relative,True
+1,"cooling by stock path, permanent removal TH=100",4.56651e-14,4.56651e-14,3.26151e-14,2e-12,relative,True
+1,"cooling by stock path, permanent removal TH=500",2.09209e-13,2.09209e-13,1.59032e-13,2e-12,relative,True
+1,"triangle integral, exponential release 1 blocks TH=100",1.15298e-29,1.15298e-29,2.12083e-13,5e-09,relative,True
+1,"triangle integral, exponential release 10 blocks TH=100",9.62718e-30,9.62718e-30,9.75549e-12,5e-09,relative,True
+1,"triangle integral, exponential release 10 blocks TH=400",1.01844e-29,1.01844e-29,1.13775e-12,5e-09,relative,True
+1,"triangle integral, delayed pulse 2 blocks TH=100",1.41055e-29,1.41055e-29,8.26943e-13,5e-09,relative,True
+1,"triangle integral, delayed pulse 10 blocks TH=100",1.27108e-29,1.27108e-29,1.11995e-11,5e-09,relative,True
+1,"triangle integral, delayed pulse 11 blocks TH=400",1.18611e-29,1.18611e-29,8.89609e-13,5e-09,relative,True
+1,"triangle integral, constant-rate release 1 blocks TH=100",1.63689e-29,1.63689e-29,2.36789e-13,5e-09,relative,True
+1,"triangle integral, constant-rate release 10 blocks TH=100",1.36899e-29,1.36899e-29,8.98658e-12,5e-09,relative,True
+1,"triangle integral, constant-rate release 11 blocks TH=400",1.18499e-29,1.18499e-29,1.13382e-12,5e-09,relative,True
+1,"triangle integral, afforestation 1 blocks TH=100",7.22003e-29,7.22003e-29,8.91392e-13,5e-09,relative,True
+1,"triangle integral, afforestation 10 blocks TH=100",6.53516e-29,6.53516e-29,3.57403e-12,5e-09,relative,True
+1,"triangle integral, afforestation 10 blocks TH=400",1.34919e-28,1.34919e-28,6.11542e-14,5e-09,relative,True
+2,AGWP CO2 at 100 yr,9.40756e-14,9.17e-14,0.0259058,0.03,relative,True
+2,AGWP CO2 at 20 yr,2.48974e-14,2.49e-14,0.000106284,0.03,relative,True
+2,GWP100 CH4,26.645,27,0.013147,0.05,relative,True
+2,GWP100 CH4_fossil,29.1222,29.8,0.0227441,0.05,relative,True
+2,GWP100 N2O,260.949,273,0.0441431,0.05,relative,True
+2,GWP20 CH4,79.4381,79.7,0.00328658,0.05,relative,True
+2,GWP20 CH4_fossil,80.9306,82.5,0.0190227,0.05,relative,True
+2,GWP20 N2O,267.281,273,0.0209494,0.05,relative,True
+3,"mean cooling, mixed severity, exponential release",1.41744e-14,1.4178e-14,0.00025327,0.00297956,relative,True
+3,"s.d. of cooling, mixed severity, exponential release",5.17726e-15,5.17383e-15,0.000661486,0.008,relative,True
+3,"mean cooling, stand replacing, afforestation",2.05359e-14,2.05238e-14,0.000589814,0.0057596,relative,True
+3,"s.d. of cooling, stand replacing, afforestation",1.44646e-14,1.44776e-14,0.000895725,0.008,relative,True
+3,"mean cooling, fat-tailed severity, delayed pulse",2.20925e-14,2.20876e-14,0.000222739,0.002,relative,True
+3,"s.d. of cooling, fat-tailed severity, delayed pulse",2.34209e-15,2.3461e-15,0.00170959,0.008,relative,True
+3,"Bernoulli survival, mean against exact quadrature",1.51385e-14,1.51385e-14,3.76648e-13,1e-11,relative,True
+4,western_us eta=0.75 marginal-cost equalisation,1.92959e-08,0,1.92959e-08,0.002,relative spread,True
+4,western_us eta=0.75 chance constraint tight,-3.2267e-15,0,3.2267e-15,5e-06,relative margin,True
+4,western_us eta=0.75 Cantelli multiplier,1.73205,1.73205,0,1e-15,relative,True
+4,western_us eta=0.90 marginal-cost equalisation,3.395e-07,0,3.395e-07,0.002,relative spread,True
+4,western_us eta=0.90 chance constraint tight,1.29068e-16,0,1.29068e-16,5e-06,relative margin,True
+4,western_us eta=0.90 Cantelli multiplier,3,3,0,1e-15,relative,True
+4,boreal_canada eta=0.75 marginal-cost equalisation,3.96467e-08,0,3.96467e-08,0.002,relative spread,True
+4,boreal_canada eta=0.75 chance constraint tight,0,0,0,5e-06,relative margin,True
+4,boreal_canada eta=0.75 Cantelli multiplier,1.73205,1.73205,0,1e-15,relative,True
+4,boreal_canada eta=0.90 marginal-cost equalisation,6.67209e-07,0,6.67209e-07,0.002,relative spread,True
+4,boreal_canada eta=0.90 chance constraint tight,-9.65557e-15,0,9.65557e-15,5e-06,relative margin,True
+4,boreal_canada eta=0.90 Cantelli multiplier,3,3,0,1e-15,relative,True
+5,"mean -> deterministic, first order at lambda0=1e-03",3.65223e-14,3.83488e-14,0.0476307,0.06,relative,True
+5,"s.d. -> zero, half order at lambda0=1e-03",0.144705,0,0.144705,0.252982,coefficient of variation,True
+5,"mean -> deterministic, first order at lambda0=1e-05",3.833e-14,3.83488e-14,0.000491275,0.0006,relative,True
+5,"s.d. -> zero, half order at lambda0=1e-05",0.0152152,0,0.0152152,0.0252982,coefficient of variation,True
+5,"mean -> deterministic, first order at lambda0=1e-07",3.83486e-14,3.83488e-14,4.91428e-06,6e-06,relative,True
+5,"s.d. -> zero, half order at lambda0=1e-07",0.00152228,0,0.00152228,0.00252982,coefficient of variation,True
+5,"robust cost -> analytic deterministic cost, eta=0.50",2.23132e+11,2.23119e+11,5.99137e-05,0.002,relative,True
+5,"robust cost -> analytic deterministic cost, eta=0.90",2.23159e+11,2.23119e+11,0.000179742,0.002,relative,True
+5,"robust cost -> analytic deterministic cost, eta=0.99",2.23252e+11,2.23119e+11,0.000596304,0.002,relative,True
+6,"western_us hazard trend, 10 blocks",4.07217e-05,0,4.07217e-05,0.001,relative in Lambda(TH),True
+6,western_us intensification target,3.3,3.3,2.69145e-16,1e-09,relative,True
+6,western_us severity m1,0.5138,0.5138,0,1e-09,relative,True
+6,western_us severity m2,0.393746,0.393746,1.40982e-16,1e-06,relative,True
+6,western_us present-day rate,0.0142857,0.0142857,0,1e-12,relative,True
+6,"boreal_canada hazard trend, 10 blocks",0.000109721,0,0.000109721,0.001,relative in Lambda(TH),True
+6,boreal_canada intensification target,2.6,2.6,1.70804e-16,1e-09,relative,True
+6,boreal_canada severity m1,0.8845,0.8845,0,1e-09,relative,True
+6,boreal_canada severity m2,0.847045,0.847045,0,1e-06,relative,True
+6,boreal_canada present-day rate,0.00909091,0.00909091,0,1e-12,relative,True
+6,"Australian 2019-20 release, surface spike order",-3.41361,-3.69897,0.077145,0.35,log10 K,True
+6,pulse response lag,9.5,6,0.583333,0.7,years,True

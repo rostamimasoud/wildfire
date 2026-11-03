@@ -1,0 +1,11 @@
+region,measure,variance_total,variance_idiosyncratic,variance_common,common_share,coefficient_of_variation
+Western United States,Afforestation,1.58584e-28,1.20335e-28,3.82489e-29,0.24119,0.580164
+Western United States,Improved forest management,1.52159e-28,1.14712e-28,3.74464e-29,0.246101,0.626196
+Western United States,Soil carbon,1.20388e-29,1.06517e-29,1.38709e-30,0.115218,0.222324
+Western United States,Harvested wood products,7.53836e-30,7.33515e-30,2.03206e-31,0.0269563,0.118114
+Western United States,Biochar,3.23092e-29,3.08159e-29,1.49335e-30,0.0462206,0.151016
+Boreal Canada,Afforestation,2.13043e-28,1.4259e-28,7.04531e-29,0.330699,0.610347
+Boreal Canada,Improved forest management,2.06232e-28,1.37481e-28,6.87508e-29,0.333367,0.652475
+Boreal Canada,Soil carbon,1.50083e-29,1.20672e-29,2.94101e-30,0.195959,0.245527
+Boreal Canada,Harvested wood products,9.56384e-30,8.97291e-30,5.90929e-31,0.0617878,0.13301
+Boreal Canada,Biochar,3.9418e-29,3.57091e-29,3.7089e-30,0.0940917,0.16629

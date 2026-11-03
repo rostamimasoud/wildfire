@@ -1,0 +1,57 @@
+section,claim,asserted,generated,units,evidence,verdict,note
+Abstract,fire removes much of the credit of a new forest,0.35 to 0.55,0.433987,fraction,derived:loss_afforestation_western_us,pass,"'much of' read as 35 to 55 per cent, averaged over fire-weather years"
+Abstract,little of the credit of biochar or wood products,0.02 to 0.09,0.0485892,fraction,derived:loss_biochar_western_us,pass,'little of' read as 2 to 9 per cent
+Abstract,correcting the average alone doubles the cost,0.8 to 1.2,1.04241,fraction,premium_mean_over_credit_western_us,pass,'doubles' read as 80 to 120 per cent additional
+Abstract,a guarantee at nine-tenths raises it by a further factor of two,1.7 to 2.4,2.1535,ratio,derived:guarantee_over_mean_western_us,pass,
+Abstract,from a fourteenth of delivered cooling under current accounting,0.064 to 0.079,0.0712936,fraction,protected_share_western_us_det,pass,'a fourteenth' read as 1/15.6 to 1/12.6
+Abstract,to three-fifths,0.55 to 0.65,0.581091,fraction,protected_share_western_us_90,pass,
+Abstract,a third of the variance of an evenly spread portfolio survives,0.28 to 0.38,0.315103,fraction,derived:common_share_western_us,pass,
+Results: store,"fire return interval, western United States",70 +/- 0.5,70,yr,derived:fri_western_us,pass,
+Results: store,"fire return interval, boreal Canada",110 +/- 0.5,110,yr,derived:fri_boreal_canada,pass,
+Results: store,"intensification factor, western United States",3.3 +/- 0.05,3.3,factor,fig1_wus_intensification,pass,
+Results: store,"intensification factor, boreal Canada",2.6 +/- 0.05,2.6,factor,fig1_boreal_intensification,pass,
+Results: store,"worst season against the twenty-year mean, western US",3.5 +/- 0.05,3.5,ratio,derived:anomaly_ratio_western_us,pass,
+Results: store,"worst season against the twenty-year mean, boreal Canada",6 +/- 0.05,6,ratio,derived:anomaly_ratio_boreal_canada,pass,
+Results: store,chance a new forest escapes fire over a century,4.4 +/- 0.15,4.44967,per cent,fig1_wus_survival_100yr,pass,
+Results: store,"mean cooling lost by a new forest, averaged over years",43 +/- 0.6,43.3987,per cent,derived:loss_afforestation_western_us,pass,the quantity the portfolio is optimised against
+Results: store,"mean cooling lost by a new forest, central year",48 +/- 0.6,47.7944,per cent,fig1_afforestation_loss_fraction_central_year,pass,conditional on a central fire-weather year
+Results: store,largest loss across measures (standing biomass),46 +/- 0.6,46.2026,per cent,loss_fraction_max_western_us,pass,
+Results: store,smallest loss across measures (wood products),2.9 +/- 0.15,2.86565,per cent,loss_fraction_min_western_us,pass,
+Results: store,loss for biochar,4.9 +/- 0.2,4.85892,per cent,derived:loss_biochar_western_us,pass,
+Results: store,"standard deviation as a share of the mean, new forest",58 +/- 0.6,57.877,per cent,fig1_afforestation_cv_central_year,pass,
+Results: store,standard deviations demanded at nine-tenths confidence,3 +/- 0.02,3,sd,derived:kappa_90,pass,
+Results: store,equivalent storage time of a new forest without fire,286 +/- 3,286.112,yr,fig1_equiv_storage_nominal_afforestation,pass,
+Results: store,equivalent storage time of a new forest under fire,60 +/- 1,60.0392,yr,fig1_equiv_storage_under_fire_afforestation,pass,
+Results: premium,"mean correction, western United States",104 +/- 1,104.241,per cent,premium_mean_over_credit_western_us,pass,
+Results: premium,"mean correction, boreal Canada",87 +/- 1,86.5462,per cent,premium_mean_over_credit_boreal_canada,pass,
+Results: premium,"total cost at nine-tenths, western United States",4.4 +/- 0.05,4.39834,x deterministic,derived:total_cost_ratio_western_us_90,pass,
+Results: premium,"total cost at nine-tenths, boreal Canada",4.6 +/- 0.05,4.61832,x deterministic,derived:total_cost_ratio_boreal_canada_90,pass,
+Results: premium,the two regions differ by less than a tenth at every confidence,0 to 0.1,0.0493111,fraction,derived:max_regional_premium_gap,pass,
+Results: composition,exposed share under deterministic accounting,93 +/- 0.6,92.8706,per cent,protected_share_western_us_det,pass,reported as one minus the fire-proof share
+Results: composition,exposed share under neutrality on average,64 +/- 0.6,64.2814,per cent,protected_share_western_us_50,pass,
+Results: composition,exposed share at nine-tenths confidence,42 +/- 0.6,41.8909,per cent,protected_share_western_us_90,pass,
+Results: composition,exposed share at 0.95 confidence,35 +/- 0.6,35.2531,per cent,protected_share_western_us_95,pass,
+Results: composition,confidence at which standing biomass reaches zero worth,0.95 +/- 0.015,0.951908,eta,derived:effective_zero_confidence_western_us,pass,
+Results: diversification,"diversifiable variance share, western United States",68 +/- 0.6,68.4897,per cent,diversifiable_share_western_us,pass,
+Results: diversification,"common variance share, western United States",32 +/- 0.6,31.5103,per cent,derived:common_share_western_us,pass,
+Results: diversification,"common variance share, boreal Canada",41 +/- 0.6,41.2008,per cent,derived:common_share_boreal_canada,pass,
+Results: diversification,a hundred forests are about three times safer,2.5 to 3.8,3.17357,factor,derived:variance_floor_factor_western_us,pass,"variance reduction ceiling, the inverse of the common share"
+Results: diversification,"earliest fire-proof deployment, weighted mean start",14 +/- 0.5,14.1725,yr,derived:fireproof_start_min,pass,
+Results: diversification,"latest fire-proof deployment, weighted mean start",17 +/- 0.5,17.035,yr,derived:fireproof_start_max,pass,
+Results: diversification,earliest standing-biomass start,26 +/- 0.5,25.8743,yr,schedule_com_afforestation,pass,
+Results: diversification,latest standing-biomass start,32 +/- 0.5,31.5253,yr,schedule_com_improved_forest_management,pass,
+Results: ceiling,"confidence ceiling without a fire-proof option, western US",0.988 +/- 0.001,0.988467,eta,ceiling_no_fireproof_western_us,pass,
+Results: ceiling,"confidence ceiling without a fire-proof option, boreal Canada",0.985 +/- 0.001,0.98471,eta,ceiling_no_fireproof_boreal_canada,pass,
+Discussion,nearly half the credit of standing biomass,0.42 to 0.52,0.462026,fraction,loss_fraction_max_western_us,pass,
+Discussion,against a thirty-fifth of the credit of wood products,0.026 to 0.032,0.0286565,fraction,loss_fraction_min_western_us,pass,'a thirty-fifth' read as 1/38 to 1/31
+Discussion,the loss varies by more than an order of magnitude across measures,10 to 1000,16.1229,ratio,derived:loss_spread_ratio_western_us,pass,
+Discussion,a fire-proof capacity of about a tenth of the required cooling,0.05 to 0.15,0.1,fraction,derived:fireproof_share_to_remove_ceiling,pass,
+Methods: sensitivity,"variance floor across the whole coupling range, western US",0.28 to 0.38,0.335245,fraction,common_share_independent_western_us,pass,"independent coupling, the end of the range giving the largest share"
+Methods: sensitivity,"variance floor at the comonotone bound, western US",0.26 to 0.36,0.297034,fraction,common_share_comonotone_western_us,pass,
+Methods: sensitivity,"cost at nine-tenths with severity raised a fifth, western US",4.3 to 4.8,4.5425,x deterministic,cost_multiple_severity_up_western_us,pass,
+Methods: sensitivity,"cost at nine-tenths across the cost-curvature range, western US",4.6 to 5.3,4.96421,x deterministic,cost_multiple_gamma_high_western_us,pass,
+Methods: validation,number of validation checks,70 +/- 0,70,checks,validation_checks,pass,
+Methods: validation,number of validation failures,0 +/- 0,0,checks,validation_failures,pass,
+Methods: validation,stock-path identity to a largest relative error of 1.1e-11,0 to 2e-11,1.11995e-11,relative,validation_tier1_worst,pass,
+Methods: validation,decadal blocking reproduces the cumulative hazard to 1.1e-4,0 to 0.0002,0.000109721,relative,validation:hazard trend,pass,
+Methods: validation,spike amplitude of the 2019-2020 Australian release,0.00039 +/- 2e-05,0.000385822,K,spike_amplitude_australia_K,pass,
