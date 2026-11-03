@@ -17,6 +17,12 @@ c   The credit. Cumulative cooling as a function of the horizon, with and
     non-monotone shape is inherited from the deterministic framework; fire
     lowers the curve and, more importantly, widens it.
 
+e   The equivalent storage time. Inverting the credit onto a fire-free store
+    of the same credit expresses fire as a shortening of the storage time an
+    offset protocol would assume.
+f   The penalty across measures, which is uneven, so a buffer pool set as one
+    percentage of every measure misprices all of them.
+
 d   The distribution. The delivered cooling of an exposed store is not
     symmetric about its mean: most realisations lose a little, a few lose
     nearly everything. That is the shape the Chebyshev bound is designed to
@@ -40,13 +46,51 @@ from common import (
     write_values,
 )
 
+from matplotlib.lines import Line2D
+
+from scenarios import portfolio
+
 from cipo import AR6, Afforestation, ExponentialRelease
 from wrcp.algebra import stock_signal
 from wrcp.hazard import FireHazard
-from wrcp.regions import BOREAL_CANADA, EXPOSURE, WESTERN_US
+from wrcp.regions import BOREAL_CANADA, EXPOSURE, REGIONS, WESTERN_US
 from wrcp.stochastic import FireExposedStore
 
 HORIZON = 100.0
+
+SHORT = {
+    "Afforestation": "afforest.",
+    "Improved forest management": "forest mgmt",
+    "Soil carbon": "soil C",
+    "Harvested wood products": "wood prod.",
+    "Biochar": "biochar",
+}
+
+
+def equivalent_storage_time(cm, credit, horizon, lo=0.5, hi=2.0e4, n=60):
+    """Storage time of a fire-free store that earns the same credit.
+
+    Cumulative cooling rises monotonically with the mean storage time of a
+    first-order store, so the map from storage time to credit is invertible.
+    Inverting it expresses a measure in the unit an offset protocol already
+    uses, the years a store is assumed to hold its carbon, and makes the effect
+    of fire a change in that number rather than a change in an abstract credit.
+    """
+
+    def excess(tau):
+        return float(ExponentialRelease(tau=tau).cooling(cm, horizon)) - credit
+
+    if excess(lo) > 0.0:
+        return lo
+    if excess(hi) < 0.0:
+        return hi
+    for _ in range(n):
+        mid = 0.5 * (lo + hi)
+        if excess(mid) < 0.0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
 
 
 def _survival_samples(hz, iv, cm, horizon, n=40000, seed=3, n_step=400):
@@ -75,8 +119,17 @@ def main():
     import matplotlib.pyplot as plt
 
     cm = AR6()
-    fig, axes = plt.subplots(2, 2, figsize=(DOUBLE, 0.62 * DOUBLE))
-    (ax_a, ax_b), (ax_c, ax_d) = axes
+    fig = plt.figure(figsize=(DOUBLE, 0.64 * DOUBLE))
+    gs = fig.add_gridspec(
+        2, 3, hspace=0.52, wspace=0.60, left=0.062, right=0.972,
+        top=0.940, bottom=0.095,
+    )
+    ax_a = fig.add_subplot(gs[0, 0])
+    ax_b = fig.add_subplot(gs[0, 1])
+    ax_c = fig.add_subplot(gs[0, 2])
+    ax_d = fig.add_subplot(gs[1, 0])
+    ax_e = fig.add_subplot(gs[1, 1])
+    ax_f = fig.add_subplot(gs[1, 2])
     t = np.linspace(0.0, HORIZON, 1201)
 
     # ---------------------------------------------------------------- panel a
@@ -113,7 +166,7 @@ def main():
             ls=(0, (3, 1.6)),
             lw=0.9,
         )
-    ax_a2.set_ylabel("probability of no fire", color="#555555")
+    ax_a2.set_ylabel("escape probability", color="#555555")
     ax_a2.set_ylim(0, 1.02)
     ax_a2.tick_params(axis="y", colors="#555555")
     ax_a2.spines["top"].set_visible(False)
@@ -141,14 +194,14 @@ def main():
         det_stock,
         color=COLOURS["deterministic"],
         ls=(0, (4, 1.5)),
-        label="deterministic stock",
+        label="without fire",
     )
     ax_b.plot(
         t,
         mean_stock,
         color=COLOURS["afforestation"],
         path_effects=halo(),
-        label="mean stock under fire",
+        label="mean under fire",
     )
     # The spread of the survival multiplier, as a one-standard-deviation band
     # on the stock. Second moment of the multiplier from the same algebra.
@@ -170,17 +223,48 @@ def main():
         alpha=0.22,
     )
     ax_b.set_xlabel("year from establishment")
-    ax_b.set_ylabel("stored stock (per unit at peak)")
+    ax_b.set_ylabel("stored stock (per peak unit)")
     ax_b.set_xlim(0, HORIZON)
-    ax_b.set_ylim(0, 1.05)
-    ax_b.legend(loc="upper right")
+    # Headroom above the deterministic stock, which the embedded panel uses.
+    ax_b.set_ylim(0, 1.58)
+    ax_b.set_yticks([0.0, 0.25, 0.5, 0.75, 1.0])
+    ax_b.legend(
+        loc="upper right", bbox_to_anchor=(1.005, 1.005), fontsize=5.8,
+        labelspacing=0.28, handlelength=1.5, handletextpad=0.5,
+        borderaxespad=0.0, borderpad=0.3,
+    )
     light_grid(ax_b, "y")
     spine_style(ax_b)
     panel_label(ax_b, "b")
+    # An embedded panel isolating the factor fire contributes. The mean stock
+    # is the product of the deterministic stock and this multiplier, so the
+    # host panel shows the product and the inset shows the cause.
+    ax_b_in = ax_b.inset_axes([0.070, 0.680, 0.35, 0.28], zorder=6)
+    ax_b_in.set_facecolor("white")
+    ax_b_in.patch.set_alpha(1.0)
+    for reg in (WESTERN_US, BOREAL_CANADA):
+        hz_r = reg.hazard_template(EXPOSURE["afforestation"])
+        edges_r = np.linspace(0.0, HORIZON, 401)
+        cum_r = np.interp(t, edges_r, hz_r.cumulative(edges_r))
+        ax_b_in.plot(
+            t, np.exp(-hz_r.severity.m1 * cum_r),
+            color=COLOURS[reg.name], lw=0.9,
+        )
+    ax_b_in.set_xlim(0, HORIZON)
+    ax_b_in.set_ylim(0, 1.02)
+    ax_b_in.set_xticks([0, 50, 100])
+    ax_b_in.set_yticks([0, 0.5, 1.0])
+    ax_b_in.tick_params(labelsize=4.6, length=1.8, pad=1.0)
+    ax_b_in.text(
+        0.04, 0.06, "survival multiplier $\\mathbb{E}[S(t)]$",
+        transform=ax_b_in.transAxes, fontsize=4.6, ha="left", va="bottom",
+    )
+    spine_style(ax_b_in)
+
     ax_b.annotate(
         "over-credit",
-        xy=(62.0, 0.5 * (det_stock[t.searchsorted(62.0)] + mean_stock[t.searchsorted(62.0)])),
-        xytext=(70.0, 0.80),
+        xy=(78.0, 0.5 * (det_stock[t.searchsorted(78.0)] + mean_stock[t.searchsorted(78.0)])),
+        xytext=(60.0, 0.80),
         fontsize=6.2,
         color=COLOURS["fire"],
         arrowprops=dict(arrowstyle="-", lw=0.5, color=COLOURS["fire"]),
@@ -236,12 +320,12 @@ def main():
     kappa90 = np.sqrt(0.9 / 0.1)
     level90 = mu_d - kappa90 * sd_d
     ax_d.axvline(det_d, color=COLOURS["deterministic"], ls=(0, (4, 1.5)), lw=1.0)
-    ax_d.axvline(mu_d, color=COLOURS["net"], lw=1.1)
+    ax_d.axvline(mu_d, color=COLOURS["net"], lw=1.1, ymax=0.47)
     # The Chebyshev guarantee at ninety per cent lies below zero for a single
     # exposed store, because its coefficient of variation exceeds one third.
     # That is not a defect of the bound; it is the statement that no quantity
     # of one exposed measure guarantees any positive cooling at that
-    # confidence, which is precisely why the robust portfolios of Figure 3
+    # confidence, which is precisely why the robust portfolios of Figure 4
     # must hold something fire can not reach. The axis is extended to show it.
     lo = min(0.0, level90) - 0.25
     ax_d.set_xlim(lo, det_d * 1.06)
@@ -257,23 +341,53 @@ def main():
     top = ax_d.get_ylim()[1]
     ax_d.annotate(
         "90% Chebyshev\nguarantee",
-        xy=(level90, top * 0.42),
-        xytext=(level90 + 0.15, top * 0.72),
+        xy=(level90, top * 0.16),
+        xytext=(level90 + 0.10, top * 0.30),
         fontsize=5.8,
         color=COLOURS["fire"],
         ha="left",
         arrowprops=dict(arrowstyle="-", lw=0.45, color=COLOURS["fire"]),
     )
     ax_d.text(
-        mu_d - 0.06,
-        top * 0.97,
-        "mean ",
+        mu_d + 0.07,
+        top * 0.44,
+        "mean",
         rotation=90,
         va="top",
-        ha="right",
+        ha="left",
         fontsize=5.8,
         color=COLOURS["net"],
     )
+    # An embedded panel on the left tail, drawn with a logarithmic density so
+    # the rare outcomes are visible at all. The tail is the reason the
+    # guarantee is posed over every distribution with the computed moments
+    # instead of over a named one.
+    ax_d_in = ax_d.inset_axes([0.335, 0.505, 0.40, 0.42], zorder=6)
+    ax_d_in.set_facecolor("white")
+    ax_d_in.patch.set_alpha(1.0)
+    # The cumulative form reads better here than a logarithmic histogram,
+    # which saturates: it gives the probability of falling short of any given
+    # credit, which is the quantity a guarantee is written against.
+    ordered = np.sort(samples)
+    grid = np.linspace(0.0, mu_d, 240)
+    shortfall = np.searchsorted(ordered, grid, side="right") / ordered.size
+    ax_d_in.plot(grid, np.clip(shortfall, 1e-5, None),
+                 color=COLOURS["afforestation"], lw=1.0)
+    ax_d_in.set_yscale("log")
+    ax_d_in.set_xlim(0.0, mu_d)
+    ax_d_in.set_ylim(1e-4, 1.4)
+    ax_d_in.set_xticks([0.0, 1.0, 2.0])
+    ax_d_in.set_yticks([1e-4, 1e-2, 1.0])
+    ax_d_in.set_yticklabels(["$10^{-4}$", "$10^{-2}$", "1"])
+    ax_d_in.minorticks_off()
+    ax_d_in.tick_params(labelsize=4.4, length=1.8, pad=1.0)
+    ax_d_in.text(
+        0.04, 0.93, "P(credit $\\leq x$)", transform=ax_d_in.transAxes,
+        fontsize=4.9, ha="left", va="top",
+    )
+    light_grid(ax_d_in, "y")
+    spine_style(ax_d_in)
+
     ax_d.text(
         det_d - 0.06,
         top * 0.97,
@@ -285,15 +399,97 @@ def main():
         color=COLOURS["deterministic"],
     )
 
-    fig.tight_layout(pad=0.6, w_pad=1.4, h_pad=1.1)
+
+    # ---------------------------------------------------------------- panels e, f
+    # Both panels read the portfolio moments, which average over fire-weather
+    # years. That is the basis the optimisation uses, so the per-measure
+    # numbers here agree with the tables and with Figures 2 to 5.
+    order, rows = None, {}
+    for key in ("western_us", "boreal_canada"):
+        fp = portfolio(key)
+        m = fp.moments()
+        keep = [i for i, st in enumerate(fp.stores) if not st.hazard.is_inert]
+        if order is None:
+            order = [fp.stores[i].label for i in keep]
+        rows[key] = [
+            (
+                fp.names[i],
+                equivalent_storage_time(cm, float(m.deterministic[i]), HORIZON),
+                equivalent_storage_time(cm, float(m.mean[i]), HORIZON),
+                float(m.loss_fraction[i]),
+            )
+            for i in keep
+        ]
+
+    pos = np.arange(len(order))
+    offsets = {"western_us": -0.18, "boreal_canada": 0.18}
+    labels = [SHORT.get(lbl, lbl) for lbl in order]
+
+    for key, dy in offsets.items():
+        colour = COLOURS[key]
+        for j, (_, nominal, effective, _) in enumerate(rows[key]):
+            y = pos[j] + dy
+            ax_e.plot([effective, nominal], [y, y], color=colour, lw=1.0,
+                      solid_capstyle="round", zorder=2)
+            ax_e.plot([nominal], [y], marker="o", ms=3.0, mfc="white",
+                      mec=colour, mew=0.9, ls="none", zorder=3)
+            ax_e.plot([effective], [y], marker="o", ms=3.0, color=colour,
+                      ls="none", zorder=3)
+    ax_e.set_xscale("log")
+    ax_e.set_yticks(pos)
+    ax_e.set_yticklabels(labels, fontsize=5.3)
+    ax_e.invert_yaxis()
+    ax_e.set_xlabel("equivalent storage time (yr)")
+    ax_e.set_ylim(len(order) - 0.5, -0.5)
+    handles = [
+        Line2D([], [], marker="o", ms=3.0, mfc="white", mec=COLOURS["net"],
+               mew=0.9, ls="none", label="without fire"),
+        Line2D([], [], marker="o", ms=3.0, color=COLOURS["net"], ls="none",
+               label="under fire"),
+    ]
+    ax_e.legend(
+        handles=handles, fontsize=5.2, loc="lower right", frameon=False,
+        labelspacing=0.25, handlelength=1.0, borderaxespad=0.3,
+    )
+    light_grid(ax_e, "x")
+    spine_style(ax_e)
+    panel_label(ax_e, "e", dx=-0.34, dy=1.10)
+
+    width = 0.38
+    for key, dy in offsets.items():
+        ax_f.barh(
+            pos + dy, [100.0 * r[3] for r in rows[key]], height=width,
+            color=COLOURS[key], edgecolor="white", linewidth=0.3,
+            label=REGIONS[key].label,
+        )
+    ax_f.set_yticks(pos)
+    ax_f.set_yticklabels(labels, fontsize=5.3)
+    ax_f.invert_yaxis()
+    ax_f.set_xlabel("credit lost to fire (%)")
+    ax_f.set_ylim(len(order) - 0.5, -0.5)
+    ax_f.legend(
+        fontsize=5.2, loc="lower right", frameon=False, labelspacing=0.25,
+        handlelength=1.0, borderaxespad=0.3,
+    )
+    light_grid(ax_f, "x")
+    spine_style(ax_f)
+    panel_label(ax_f, "f", dx=-0.34, dy=1.10)
+
     save(fig, "fig1_mechanism")
 
     frac_below = float(np.mean(samples < mu_d - kappa90 * sd_d))
     write_values(
         {
-            "fig1_afforestation_loss_fraction": 1.0 - mu_d / det_d,
-            "fig1_afforestation_cv": sd_d / mu_d,
+            # Panel d simulates the fire process at a central fire-weather
+            # year, so these two are conditional on that year. The mean credit
+            # is convex in the year's severity, so the unconditional loss,
+            # which the portfolio and the tables use, is smaller. The names
+            # record which quantity is which.
+            "fig1_afforestation_loss_fraction_central_year": 1.0 - mu_d / det_d,
+            "fig1_afforestation_cv_central_year": sd_d / mu_d,
             "fig1_chebyshev_90_level": mu_d - kappa90 * sd_d,
+            "fig1_equiv_storage_nominal_afforestation": rows["western_us"][0][1],
+            "fig1_equiv_storage_under_fire_afforestation": rows["western_us"][0][2],
             "fig1_mass_below_90_guarantee": frac_below,
             "fig1_wus_intensification": WESTERN_US.hazard_template().intensification(
                 HORIZON
@@ -312,8 +508,10 @@ def main():
         }
     )
     print(
-        "  afforestation loses {:.1%} of its credit on average; "
-        "coefficient of variation {:.2f}".format(1.0 - mu_d / det_d, sd_d / mu_d)
+        "  afforestation loses {:.1%} of its credit at a central fire-weather "
+        "year; coefficient of variation {:.2f}".format(
+            1.0 - mu_d / det_d, sd_d / mu_d
+        )
     )
     print(
         "  Chebyshev 90% level sits at {:.2f}, with {:.2%} of simulated mass below it"

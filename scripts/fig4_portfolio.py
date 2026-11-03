@@ -1,4 +1,4 @@
-"""Figure 3: what a robust portfolio actually holds.
+"""Figure 4: what a robust portfolio actually holds.
 
 a, b  Composition against required confidence, for each region, as a share of
       delivered cooling. The deterministic portfolio is shown at the left as a
@@ -155,6 +155,7 @@ def main():
     marg_cost = np.array(
         [s.marginal_cost(a) for s, a in zip(fp.stores, data["results"][0.9].alpha)]
     )
+    eff_curves = {}
     for i, store in enumerate(fp.stores):
         eff = []
         for eta in etas:
@@ -166,6 +167,7 @@ def main():
             var = float(a @ m.covariance @ a + fp.pathway_variance)
             risk = (m.covariance @ a) / np.sqrt(var) if var > 0 else np.zeros_like(a)
             eff.append(float(m.mean[i] - kappa(eta) * risk[i]))
+        eff_curves[fp.names[i]] = np.array(eff) * 1e14
         ax_c.plot(
             etas,
             np.array(eff) * 1e14,
@@ -183,21 +185,37 @@ def main():
     light_grid(ax_c, "y")
     spine_style(ax_c)
     panel_label(ax_c, "c")
-    ax_c.set_ylim(bottom=min(-0.55, ax_c.get_ylim()[0]))
+    ax_c.set_ylim(bottom=min(-1.9, ax_c.get_ylim()[0] - 1.2))
     ax_c.text(
         0.985,
-        0.035,
-        "below zero: cannot help at any price",
+        0.315,
+        "below zero: cannot contribute at any cost",
         fontsize=5.9,
         color=COLOURS["fire"],
         transform=ax_c.transAxes,
         ha="right",
         va="bottom",
     )
-    ax_c.legend(
-        loc="center left", fontsize=5.5, borderaxespad=0.3,
-        handlelength=1.0, labelspacing=0.22,
+    # An embedded panel on the crossing itself. The exposure of a measure is
+    # decided by where its effective cooling reaches zero, and on the full
+    # axis those crossings are compressed into the last tenth.
+    ax_c_in = ax_c.inset_axes([0.105, 0.035, 0.42, 0.29], zorder=6)
+    ax_c_in.set_facecolor("white")
+    ax_c_in.patch.set_alpha(1.0)
+    for name, curve in eff_curves.items():
+        ax_c_in.plot(etas, curve, color=COLOURS[name], lw=0.9, marker="o", ms=1.5)
+    ax_c_in.axhline(0.0, color=COLOURS["fire"], lw=0.6, ls=(0, (2, 1.6)))
+    ax_c_in.set_xlim(0.86, 1.0)
+    ax_c_in.set_ylim(-0.7, 0.9)
+    ax_c_in.set_xticks([0.9, 0.95, 1.0])
+    ax_c_in.set_yticks([-0.5, 0.0, 0.5])
+    ax_c_in.tick_params(labelsize=4.5, length=1.8, pad=1.0)
+    ax_c_in.text(
+        0.04, 0.94, "the crossing", transform=ax_c_in.transAxes,
+        fontsize=4.9, ha="left", va="top",
     )
+    light_grid(ax_c_in, "y")
+    spine_style(ax_c_in)
 
     # ---------------------------------------------------------------- panel d
     region = WESTERN_US
@@ -259,8 +277,37 @@ def main():
     spine_style(ax_d)
     panel_label(ax_d, "d")
 
+    # An embedded panel giving the share of each schedule already deployed by
+    # a given year. The bars show what is bought when; this shows how far
+    # ahead the fire-aware schedule runs, which is the claim the panel makes.
+    ax_d_in = ax_d.inset_axes([0.40, 0.505, 0.36, 0.33], zorder=6)
+    ax_d_in.set_facecolor("white")
+    ax_d_in.patch.set_alpha(1.0)
+    for sched, colour, style, tag in (
+        (aware, COLOURS["protected"], "-", "fire-aware"),
+        (blind, COLOURS["exposed"], (0, (2.6, 1.4)), "fire-blind"),
+    ):
+        total = sched.deployment.sum(axis=0)
+        cum = np.cumsum(total)
+        if cum[-1] > 0:
+            ax_d_in.plot(times, cum / cum[-1], color=colour, lw=0.9, ls=style,
+                         label=tag)
+    ax_d_in.set_ylim(0.0, 1.05)
+    ax_d_in.set_yticks([0.0, 0.5, 1.0])
+    ax_d_in.tick_params(labelsize=4.5, length=1.8, pad=1.0)
+    ax_d_in.text(
+        0.96, 0.10, "share deployed", transform=ax_d_in.transAxes,
+        fontsize=4.9, ha="right", va="bottom",
+    )
+    ax_d_in.legend(
+        fontsize=4.4, loc="upper left", frameon=False, labelspacing=0.15,
+        handlelength=1.1, borderaxespad=0.2,
+    )
+    light_grid(ax_d_in, "y")
+    spine_style(ax_d_in)
+
     fig.tight_layout(pad=0.6, w_pad=1.6, h_pad=1.2, rect=(0, 0, 1, 0.945))
-    save(fig, "fig3_portfolio")
+    save(fig, "fig4_portfolio")
 
     vals = {}
     for name in ("western_us", "boreal_canada"):

@@ -108,8 +108,9 @@ PUBLISHED: Dict[str, Dict[str, object]] = {
         "value": 2.0,
         "units": "GtCO2",
         "source": "2023 Canadian fire season",
-        "note": "close to six times the twenty-year average, and over four "
-        "times Canada's annual fossil fuel emissions",
+        "note": "two comparisons, against two different denominators: close to "
+        "six times the twenty-year average of Canadian fire emissions, and "
+        "over four times Canada's annual fossil fuel emissions",
     },
     "canada_anomaly_ratio": {
         "value": 6.0,

@@ -16,7 +16,12 @@ STAGES = [
     ("tables", "make_tables.py"),
     ("figure 1, the mechanism", "fig1_mechanism.py"),
     ("figure 2, the premium and the ceiling", "fig2_premium.py"),
-    ("figure 3, the portfolio and the schedule", "fig3_portfolio.py"),
+    ("figure 3, the parameter landscape", "fig3_landscape.py"),
+    ("figure 4, the portfolio and the schedule", "fig4_portfolio.py"),
+    ("figure 5, the structure of the risk", "fig5_risk_structure.py"),
+    ("sensitivity sweep", "sensitivity.py"),
+    ("claim audit", "check_claims.py"),
+    ("manuscript staging", "stage_manuscript.py"),
 ]
 
 

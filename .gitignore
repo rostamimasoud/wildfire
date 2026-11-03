@@ -38,6 +38,7 @@ RP/
 
 # The manuscript is not part of the published code record
 manuscript/
+manuscript.zip
 
 # The cover letter names the authors and the funders, so it stays out of the
 # published record for the same reason the manuscript does.
